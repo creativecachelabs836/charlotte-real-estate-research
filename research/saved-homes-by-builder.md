@@ -107,3 +107,25 @@ Single-family and townhomes for sale, from Zillow's commute filter at rush hour:
 - **Coverage:** Zillow returns at most 100 homes per query, so the data was pulled in price bands. Transit is complete (38/38). Driving is complete up to $600K except 5 homes in the $438K–$450K band. Above $600K, 300 of about 612 homes are included.
 
 All of this is on the map in `app/`: the **Builders** tab has the drill-down by builder, and the **Commute** tab has the filterable map layer.
+
+---
+
+## Proposed LYNX Red Line
+
+Commuter rail from Charlotte Gateway Station north to Mount Mourne (Mooresville), along the NC-115 / O-Line corridor. The adopted stations are Charlotte Gateway, Derita, Harris, Eastfield, Hambright, Huntersville, Sam Furr, Cornelius, Davidson and Mount Mourne; Camp North End is a potential new station. CATS says all stations are being re-evaluated during the design update, so the station positions on the map are approximate, read from the CATS map.
+
+**731 single-family homes and townhomes for sale are within 1.5 miles of a station.**
+
+| Station | Homes | Notes |
+|---|---|---|
+| Mount Mourne | 67 | Mooresville; includes Crossrail Station new construction |
+| Davidson | 50 | |
+| Cornelius | 38 | |
+| Sam Furr | 76 | |
+| Huntersville | 77 | 1 of 101 not returned |
+| Hambright | 41 | |
+| Eastfield | 58 | Includes **9710 Warriors Way Rd** (saved), 0.2 mi away |
+| Harris | 93 | 8 of 108 not returned |
+| Derita | 76 | Includes **6408 Rockwell Church Rd** (saved) |
+| Camp North End | 101 | Taken from the 20-min commute dataset |
+| Charlotte Gateway Station | 54 | Taken from the 20-min commute dataset |

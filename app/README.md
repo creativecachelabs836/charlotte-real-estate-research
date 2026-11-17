@@ -8,6 +8,7 @@ An interactive map of Charlotte's rail transit and your saved homes.
 - Sort homes by nearest station or by price; click a station to see how many saved homes are within ½ mile
 - **Builders tab** — saved homes grouped by builder, with confidence (confirmed / likely / not identified), communities, notes and source links; tap a builder to drill down
 - **Commute tab** — 2,525 single-family homes + townhomes within a 20-min rush-hour drive or transit ride of Truist Center (214 N Tryon), filterable by mode, type, max price and new construction
+- **Red Line tab** — the proposed LYNX Red Line (Charlotte Gateway Station → Mount Mourne/Mooresville) with 731 homes within 1.5 mi of its 11 stations; drill into any station
 - Light and dark mode; on a phone the panel becomes a bottom sheet
 
 ## Run it
@@ -56,6 +57,8 @@ npm run refresh:transit
 | `src/main.js` | Map, layers, panel UI |
 | `src/style.css` | Design tokens (light/dark), panel, pins, popups |
 | `public/data/homes.csv` | Saved homes + builder, community, confidence, sources |
+| `public/data/redline.geojson` | Proposed Red Line + stations (approximate positions) |
+| `public/data/redline_homes.json` | Homes within 1.5 mi of a Red Line station |
 | `public/data/commute.json` | Homes within 20 min of 214 N Tryon (Zillow, 2026-11-17) |
 | `public/data/transit.geojson` | Rail lines and stations |
 | `scripts/refresh-transit.mjs` | Pulls exact LYNX geometry from OpenStreetMap |

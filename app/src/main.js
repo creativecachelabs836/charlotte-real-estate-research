@@ -27,11 +27,13 @@ const CONFIDENCE = {
 
 const state = {
   theme: loadPref('theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
-  layers: { blue: true, gold: true, homes: true, commute: true, walksheds: false, ...loadPref('layers') },
+  layers: { blue: true, gold: true, red: true, homes: true, commute: true, redhomes: true, walksheds: false, ...loadPref('layers') },
   tab: loadPref('tab') ?? 'builders',
   builder: null,
   commuteFilter: { mode: 'all', type: 'all', max: 0, newOnly: false, ...loadPref('commuteFilter') },
   transit: null, stations: [], homes: [], commute: null,
+  red: null, redStations: [], redHomes: null, redStation: null,
+  redFilter: { type: 'all', max: 0, ...loadPref('redFilter') },
   markers: new Map(), activeId: null, popup: null,
 };
 
@@ -58,6 +60,11 @@ function circlePolygon([lng, lat], radiusMi, steps = 64) {
   return [ring];
 }
 function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function nearestRed(lngLat) {
+  let best = null;
+  for (const s of state.redStations) { const d = haversineMi(lngLat, s.geometry.coordinates); if (!best || d < best.d) best = { d, s }; }
+  return best;
+}
 function nearestStation(lngLat) {
   let best = null;
   for (const s of state.stations) { const d = haversineMi(lngLat, s.geometry.coordinates); if (!best || d < best.d) best = { d, s }; }
@@ -66,11 +73,14 @@ function nearestStation(lngLat) {
 
 // ---------- Data ----------
 async function loadData() {
-  const [transit, csv, commute] = await Promise.all([
+  const opt = url => fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null);
+  const [transit, csv, commute, red, redHomes] = await Promise.all([
     fetch('./data/transit.geojson').then(r => r.json()),
     fetch('./data/homes.csv', { cache: 'no-store' }).then(r => r.text()),
-    fetch('./data/commute.json').then(r => (r.ok ? r.json() : null)).catch(() => null),
+    opt('./data/commute.json'), opt('./data/redline.geojson'), opt('./data/redline_homes.json'),
   ]);
+  state.red = red; state.redHomes = redHomes;
+  state.redStations = red ? red.features.filter(f => f.properties.kind === 'station') : [];
   state.transit = transit;
   state.stations = transit.features.filter(f => f.properties.kind === 'station');
   state.commute = commute;
@@ -86,7 +96,7 @@ async function loadData() {
       drive20: r.drive_20 === 'yes', transit20: r.transit_20 === 'yes',
       coords: r.coords, lat: num(r.lat), lng: num(r.lng),
     };
-    if (h.lat != null) h.nearest = nearestStation([h.lng, h.lat]);
+    if (h.lat != null) { h.nearest = nearestStation([h.lng, h.lat]); h.nearestRed = nearestRed([h.lng, h.lat]); }
     h.color = BUILDER_COLORS[h.builderKey] || '#8E8E93';
     return h;
   });
@@ -114,6 +124,16 @@ function commuteFeatures() {
       .filter(h => (!f.newOnly ? true : h.nb || h.pl))
       .map(h => ({ type: 'Feature', properties: { ...h, transit: h.m & 2 ? 1 : 0 }, geometry: { type: 'Point', coordinates: [h.lo, h.la] } })),
   };
+}
+
+function redHomeFeatures() {
+  if (!state.redHomes) return { type: 'FeatureCollection', features: [] };
+  const f = state.redFilter;
+  return { type: 'FeatureCollection', features: state.redHomes.homes
+    .filter(h => (f.type === 'all' ? true : h.t === f.type))
+    .filter(h => (!f.max ? true : h.p && h.p <= f.max))
+    .filter(h => (!state.redStation ? true : h.st === state.redStation))
+    .map(h => ({ type: 'Feature', properties: h, geometry: { type: 'Point', coordinates: [h.lo, h.la] } })) };
 }
 
 // ---------- Map ----------
@@ -171,7 +191,32 @@ function addOverlay(map) {
   map.addLayer({ id: 'station', type: 'circle', source: 'stations',
     paint: { 'circle-color': casing, 'circle-stroke-color': lineColor, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3.2, 15, 7], 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 15, 3.5] } });
 
+  if (state.red) {
+    const red = cssVar('--red');
+    map.addSource('red-line', { type: 'geojson', data: { type: 'FeatureCollection', features: state.red.features.filter(f => f.properties.kind === 'line') } });
+    map.addSource('red-stations', { type: 'geojson', data: { type: 'FeatureCollection', features: state.redStations } });
+    map.addSource('red-homes', { type: 'geojson', data: redHomeFeatures() });
+    map.addLayer({ id: 'red-homes', type: 'circle', source: 'red-homes',
+      paint: { 'circle-color': cssVar('--red-homes'), 'circle-opacity': dark ? 0.8 : 0.7,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 2, 13, 4.5, 16, 7.5],
+        'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 11, 0, 14, 1], 'circle-stroke-color': casing } }, 'walkshed-fill');
+    map.addLayer({ id: 'red-glow', type: 'line', source: 'red-line', layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': red, 'line-opacity': dark ? 0.5 : 0.3, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 8, 15, 20], 'line-blur': 6 } });
+    map.addLayer({ id: 'red-casing', type: 'line', source: 'red-line', layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': casing, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 5, 15, 10] } });
+    map.addLayer({ id: 'red-core', type: 'line', source: 'red-line', layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: { 'line-color': red, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 3, 15, 6], 'line-dasharray': [2.2, 1.2] } });
+    map.addLayer({ id: 'red-station', type: 'circle', source: 'red-stations',
+      paint: { 'circle-color': ['match', ['get', 'status'], 'potential', red, casing], 'circle-stroke-color': red,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 3.5, 15, 7.5], 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 9, 2, 15, 3.5] } });
+  }
+
   const font = labelFont(map);
+  if (font && state.red) {
+    map.addLayer({ id: 'red-label', type: 'symbol', source: 'red-stations', minzoom: 9.5,
+      layout: { 'text-field': ['get', 'name'], 'text-font': font, 'text-size': ['interpolate', ['linear'], ['zoom'], 9.5, 11, 15, 14], 'text-offset': [0.9, 0], 'text-anchor': 'left', 'text-optional': true },
+      paint: { 'text-color': cssVar('--red'), 'text-halo-color': dark ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,.95)', 'text-halo-width': 1.8 } });
+  }
   if (font) {
     map.addLayer({ id: 'station-label', type: 'symbol', source: 'stations', minzoom: 11.5,
       layout: { 'text-field': ['get', 'name'], 'text-font': font, 'text-size': ['interpolate', ['linear'], ['zoom'], 11.5, 11, 16, 14], 'text-offset': [0.9, 0], 'text-anchor': 'left', 'text-max-width': 10, 'text-optional': true },
@@ -188,6 +233,8 @@ function applyLayerVisibility(map) {
   const vis = on => (on ? 'visible' : 'none');
   for (const id of ['walkshed-fill', 'walkshed-line']) map.setLayoutProperty(id, 'visibility', vis(state.layers.walksheds));
   for (const id of ['commute-drive', 'commute-transit']) map.setLayoutProperty(id, 'visibility', vis(state.layers.commute));
+  for (const id of ['red-glow', 'red-casing', 'red-core', 'red-station', 'red-label']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis(state.layers.red));
+  if (map.getLayer('red-homes')) map.setLayoutProperty('red-homes', 'visibility', vis(state.layers.redhomes));
   for (const m of state.markers.values()) m.getElement().style.display = state.layers.homes ? '' : 'none';
 }
 
@@ -224,8 +271,14 @@ function homePopupHTML(h) {
     <div class="pop-meta"><b>${fmtPrice(h.price)}</b>${facts(h) ? ' · ' + facts(h) : ''}</div>
     <div class="pop-meta">${esc(h.community || '')}</div>
     ${near}
+    ${redNear(h)}
     <div class="chips">${chip(conf.label, conf.cls)}${h.drive20 ? chip('≤20 min drive', 'ok') : chip('>20 min drive', 'muted')}${h.coords === 'approx' ? chip('Approx. location', 'warn') : ''}</div>
     ${h.url && /^https?:\/\//.test(h.url) ? `<a class="pop-link" href="${esc(h.url)}" target="_blank" rel="noopener">View listing ↗</a>` : ''}`;
+}
+
+function redNear(h) {
+  const r = h.nearestRed;
+  return r && r.d <= 1.5 ? `<div class="pop-meta red-near"><span class="red-dash"></span>${fmtMi(r.d)} to ${esc(r.s.properties.name)} · Red Line (proposed)</div>` : '';
 }
 
 function selectHome(map, id, { fly = true } = {}) {
@@ -248,6 +301,86 @@ function commutePopupHTML(p) {
     ${near ? `<div class="pop-meta"><span style="color:${near.s.properties.color}">●</span> ${fmtMi(near.d)} to ${esc(near.s.properties.name)}</div>` : ''}
     <div class="chips">${p.m & 2 ? chip('Transit ≤20', 'ok') : ''}${p.m & 1 ? chip('Drive ≤20', 'ok') : ''}${p.nb || p.pl ? chip('New construction', 'warn') : ''}</div>
     <a class="pop-link" href="${ZILLOW}${esc(p.u)}" target="_blank" rel="noopener">View on Zillow ↗</a>`;
+}
+
+function redHomePopupHTML(p) {
+  return `<div class="pop-eyebrow"><span class="red-dash"></span>${fmtMi(p.d)} to ${esc(p.st)} station</div>
+    <div class="pop-title">${esc(p.a)}</div>
+    <div class="pop-meta">${esc(p.city || '')}${p.z ? ' ' + esc(p.z) : ''}</div>
+    <div class="pop-meta"><b>${fmtPrice(p.p)}</b> · ${[p.bd && `${p.bd} bd`, p.ba && `${p.ba} ba`, p.sf && `${Number(p.sf).toLocaleString()} sqft`].filter(Boolean).join(' · ')}</div>
+    <div class="pop-meta">${p.t === 'T' ? 'Townhome' : 'Single-family'}${p.c ? ' · ' + esc(p.c) : ''}${p.pl ? ' · Builder plan' : ''}</div>
+    <div class="chips">${chip('Red Line (proposed)', 'warn')}${p.nb || p.pl ? chip('New construction', 'warn') : ''}</div>
+    <a class="pop-link" href="${ZILLOW}${esc(p.u)}" target="_blank" rel="noopener">View on Zillow ↗</a>`;
+}
+
+// ---------- Panel: Red Line ----------
+function renderRedline(map) {
+  const el = document.getElementById('view-redline');
+  if (!state.red || !state.redHomes) { el.innerHTML = `<div class="empty"><strong>No Red Line data</strong>Add <code>public/data/redline.geojson</code>.</div>`; return; }
+  const f = state.redFilter;
+  const all = state.redHomes.homes.filter(h => (f.type === 'all' || h.t === f.type) && (!f.max || (h.p && h.p <= f.max)));
+  const seg = opts => `<div class="seg" data-rf="type">${opts.map(([v, l]) => `<button data-v="${v}" aria-pressed="${f.type === v}">${l}</button>`).join('')}</div>`;
+  const filters = `${seg([['all', 'All types'], ['S', 'Single-family'], ['T', 'Townhome']])}
+    <div class="row"><label class="sel">Max price <select id="rmax">${[[0, 'Any'], [300000, '$300K'], [350000, '$350K'], [400000, '$400K'], [450000, '$450K'], [500000, '$500K'], [600000, '$600K'], [800000, '$800K']]
+      .map(([v, l]) => `<option value="${v}" ${f.max === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      <span class="facts">Within 1.5 mi of a station</span></div>`;
+  const savedNear = state.homes.filter(h => h.nearestRed && h.nearestRed.d <= 1.5);
+
+  if (state.redStation) {
+    const st = state.redStations.find(s => s.properties.name === state.redStation);
+    const list = all.filter(h => h.st === state.redStation).sort((a, b) => a.d - b.d);
+    el.innerHTML = `
+      <button class="back" id="rback"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>All stations</button>
+      <div class="drill-head"><span class="red-dot ${st.properties.status}"></span><div><h2 class="drill-title">${esc(st.properties.name)}</h2>
+        <p class="drill-sub">${list.length} homes · median ${fmtPrice(median(list.map(h => h.p).filter(Boolean)))}${st.properties.status === 'potential' ? ' · potential new station' : ''}</p></div></div>
+      ${filters}
+      <ul class="cards compact">${list.map((p, i) => `<li class="c-home" data-ri="${i}" tabindex="0"><i style="background:var(--red-homes)"></i>
+        <div class="c-main"><div class="addr">${esc(p.a)}</div><div class="facts">${esc(p.city || '')} · ${p.t === 'T' ? 'Townhome' : 'Single-family'} · ${fmtMi(p.d)}</div></div>
+        <div class="price">${fmtPrice(p.p)}</div></li>`).join('') || '<li class="more">No homes match these filters.</li>'}</ul>`;
+    el.querySelector('#rback').onclick = () => { state.redStation = null; refreshRed(map); renderRedline(map); el.scrollTop = 0; };
+    el.querySelectorAll('.c-home').forEach(li => li.onclick = () => {
+      const p = list[Number(li.dataset.ri)];
+      state.popup?.remove();
+      state.popup = new maplibregl.Popup({ offset: 10, maxWidth: '300px' }).setLngLat([p.lo, p.la]).setHTML(redHomePopupHTML(p)).addTo(map);
+      map.flyTo({ center: [p.lo, p.la], zoom: Math.max(map.getZoom(), 14.5), padding: panelPadding(), speed: 1.4 });
+      collapseSheet();
+    });
+  } else {
+    const stations = [...state.redStations].sort((a, b) => b.properties.order - a.properties.order);
+    el.innerHTML = `
+      <p class="red-note"><span class="red-dash"></span><span><b>LYNX Red Line</b> · proposed commuter rail, Uptown to Mooresville. CATS is re-evaluating all stations; positions are approximate.</span></p>
+      <div class="stats">
+        <div class="stat"><b>${all.length}</b><span>Homes ≤1.5 mi</span></div>
+        <div class="stat"><b>${fmtPrice(median(all.map(h => h.p).filter(Boolean)))}</b><span>Median price</span></div>
+        <div class="stat"><b>${savedNear.length}</b><span>Saved homes near</span></div>
+      </div>
+      ${filters}
+      <ul class="cards">${stations.map(s => {
+        const n = s.properties.name, hs = all.filter(h => h.st === n), ps = hs.map(h => h.p).filter(Boolean);
+        const saved = savedNear.filter(h => h.nearestRed.s.properties.name === n);
+        return `<li class="builder station-row" data-st="${esc(n)}" tabindex="0">
+          <span class="red-dot ${s.properties.status}"></span>
+          <div class="b-main"><div class="b-name">${esc(n)}</div><div class="b-sub">${ps.length ? `from ${fmtPrice(Math.min(...ps))} · median ${fmtPrice(median(ps))}` : 'No homes match'}</div></div>
+          <div class="b-side"><b>${hs.length}</b><span>homes</span></div>
+          <div class="chips b-chips">${s.properties.status === 'potential' ? chip('Potential station', 'muted') : ''}${saved.length ? chip(`${saved.length} saved home${saved.length > 1 ? 's' : ''} nearby`, 'ok') : ''}</div>
+          <svg class="chev" viewBox="0 0 24 24" width="14" height="14"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></li>`;
+      }).join('')}</ul>
+      <p class="source">${esc(state.redHomes.source)}. ${esc(state.redHomes.coverage)}</p>`;
+    el.querySelectorAll('.station-row').forEach(li => { const go = () => openRedStation(map, li.dataset.st); li.onclick = go; li.onkeydown = e => { if (e.key === 'Enter') go(); }; });
+  }
+  el.querySelectorAll('[data-rf] button').forEach(b => b.onclick = () => { f.type = b.dataset.v; savePref('redFilter', f); refreshRed(map); renderRedline(map); });
+  el.querySelector('#rmax').onchange = e => { f.max = Number(e.target.value); savePref('redFilter', f); refreshRed(map); renderRedline(map); };
+}
+function openRedStation(map, name) {
+  state.redStation = name; refreshRed(map); renderRedline(map);
+  document.getElementById('view-redline').scrollTop = 0;
+  const st = state.redStations.find(s => s.properties.name === name);
+  const [lng, lat] = st.geometry.coordinates, dLat = 1.5 / 69, dLng = 1.5 / (69.17 * Math.cos(lat * Math.PI / 180));
+  map.fitBounds([[lng - dLng, lat - dLat], [lng + dLng, lat + dLat]], { padding: panelPadding(), duration: 700 });
+}
+function refreshRed(map) {
+  map.getSource('red-homes')?.setData(redHomeFeatures());
+  if (!state.layers.redhomes || !state.layers.red) { state.layers.redhomes = state.layers.red = true; savePref('layers', state.layers); applyLayerVisibility(map); renderToggles(map); }
 }
 
 // ---------- Panel: Builders ----------
@@ -287,7 +420,7 @@ function renderBuilders(map) {
         </li>`;
       }).join('')}</ul>`;
     const open = key => {
-      state.builder = key; renderBuilders(map); dimMarkers(key);
+      state.builder = key; renderBuilders(map); dimMarkers(key); el.scrollTop = 0;
       const pts = state.homes.filter(h => h.builderKey === key && h.lat != null).map(h => [h.lng, h.lat]);
       if (pts.length) map.fitBounds(pts.reduce((b, c) => b.extend(c), new maplibregl.LngLatBounds(pts[0], pts[0])), { padding: panelPadding(), maxZoom: 14, duration: 700 });
     };
@@ -307,6 +440,7 @@ function homeCard(h, detailed) {
     <div class="facts">${esc([facts(h), h.type].filter(Boolean).join(' · '))}</div>
     <div class="facts">${esc(h.status || '')}</div>
     ${near}
+    ${redNear(h)}
     <div class="chips">${chip(conf.label, conf.cls)}${h.drive20 ? chip('≤20 min drive', 'ok') : chip('>20 min drive', 'muted')}${h.coords === 'approx' ? chip('Approx. pin', 'warn') : ''}</div>
     ${detailed && h.notes ? `<p class="note">${esc(h.notes)}</p>` : ''}
     ${detailed && h.sources.length ? `<div class="srcs">${h.sources.map((s, i) => `<a href="${esc(s)}" target="_blank" rel="noopener">Source ${i + 1} ↗</a>`).join('')}</div>` : ''}
@@ -380,6 +514,8 @@ function renderToggles(map) {
   const items = [
     { k: 'blue', label: 'Blue Line', meta: `Light rail · ${count('blue')}`, sw: `<span class="sw" style="background:var(--blue)"></span>` },
     { k: 'gold', label: 'Gold Line', meta: `Streetcar · ${count('gold')}`, sw: `<span class="sw" style="background:var(--gold)"></span>` },
+    { k: 'red', label: 'Red Line', meta: `Proposed · ${state.redStations.length}`, sw: `<span class="sw dashed" style="background:var(--red)"></span>` },
+    { k: 'redhomes', label: 'Red Line homes', meta: state.redHomes ? `${state.redHomes.homes.length}` : '', sw: `<span class="sw dot" style="background:var(--red-homes)"></span>` },
     { k: 'homes', label: 'Saved homes', meta: `${state.homes.length}`, sw: `<span class="sw dot" style="background:var(--pin)"></span>` },
     { k: 'commute', label: '20-min commute homes', meta: state.commute ? state.commute.homes.length.toLocaleString() : '', sw: `<span class="sw dot" style="background:var(--commute)"></span>` },
     { k: 'walksheds', label: '½-mile walksheds', meta: '', sw: `<span class="sw ring"></span>` },
@@ -399,7 +535,7 @@ function renderToggles(map) {
 function setTab(tab) {
   state.tab = tab; savePref('tab', tab);
   document.querySelectorAll('.tabs [role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
-  for (const v of ['builders', 'commute', 'layers']) document.getElementById(`view-${v}`).hidden = v !== tab;
+  for (const v of ['builders', 'commute', 'redline', 'layers']) document.getElementById(`view-${v}`).hidden = v !== tab;
 }
 const isPhone = () => matchMedia('(max-width: 720px)').matches;
 function panelPadding() { return isPhone() ? { top: 40, bottom: innerHeight * 0.5, left: 30, right: 30 } : { top: 60, bottom: 60, left: 420, right: 60 }; }
@@ -422,7 +558,23 @@ async function boot() {
     document.body.dataset.ready = '1';
   });
 
-  for (const id of ['station', 'commute-drive', 'commute-transit']) {
+  map.on('click', 'red-station', e => {
+    const p = e.features[0].properties, c = e.features[0].geometry.coordinates;
+    const hs = state.redHomes ? state.redHomes.homes.filter(h => h.st === p.name) : [];
+    state.popup?.remove();
+    state.popup = new maplibregl.Popup({ offset: 12, maxWidth: '260px' }).setLngLat(c).setHTML(`
+      <div class="pop-eyebrow"><span class="red-dash"></span>Red Line · ${p.status === 'potential' ? 'potential station' : 'proposed'}</div>
+      <div class="pop-title">${esc(p.name)}</div>
+      <div class="pop-meta">${hs.length} homes within 1.5 mi · median ${fmtPrice(median(hs.map(h => h.p).filter(Boolean)))}</div>
+      <button class="pop-link as-btn" id="open-st">See homes →</button>`).addTo(map);
+    document.getElementById('open-st').onclick = () => { setTab('redline'); openRedStation(map, p.name); };
+  });
+  map.on('click', 'red-homes', e => {
+    const p = e.features[0].properties;
+    state.popup?.remove();
+    state.popup = new maplibregl.Popup({ offset: 8, maxWidth: '300px' }).setLngLat([p.lo, p.la]).setHTML(redHomePopupHTML(p)).addTo(map);
+  });
+  for (const id of ['station', 'red-station', 'red-homes', 'commute-drive', 'commute-transit']) {
     map.on('mouseenter', id, () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', id, () => (map.getCanvas().style.cursor = ''));
   }
@@ -453,7 +605,7 @@ async function boot() {
   document.getElementById('grabber').addEventListener('click', () => document.getElementById('panel').classList.toggle('expanded'));
   document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) setTab(b.dataset.tab); });
 
-  setTab(state.tab); renderBuilders(map); renderCommute(map); renderToggles(map);
+  setTab(state.tab); renderBuilders(map); renderCommute(map); renderRedline(map); renderToggles(map);
 }
 
 boot();

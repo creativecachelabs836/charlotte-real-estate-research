@@ -1,0 +1,287 @@
+{
+ "type": "FeatureCollection",
+ "note": "Proposed alignment; station locations approximate (CATS Red Line map, design update underway).",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "line",
+    "line": "red",
+    "name": "LYNX Red Line (proposed)",
+    "mode": "Commuter rail",
+    "color": "#C8102E",
+    "status": "proposed",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -80.8481,
+      35.2296
+     ],
+     [
+      -80.8358,
+      35.2452
+     ],
+     [
+      -80.8035,
+      35.299
+     ],
+     [
+      -80.8178,
+      35.3262
+     ],
+     [
+      -80.8225,
+      35.3555
+     ],
+     [
+      -80.8318,
+      35.3705
+     ],
+     [
+      -80.8428,
+      35.4107
+     ],
+     [
+      -80.8481,
+      35.4396
+     ],
+     [
+      -80.8597,
+      35.4835
+     ],
+     [
+      -80.8487,
+      35.4993
+     ],
+     [
+      -80.847,
+      35.555
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Charlotte Gateway Station",
+    "order": 0,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8481,
+     35.2296
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Camp North End",
+    "order": 1,
+    "status": "potential",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8358,
+     35.2452
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Derita",
+    "order": 2,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8035,
+     35.299
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Harris",
+    "order": 3,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8178,
+     35.3262
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Eastfield",
+    "order": 4,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8225,
+     35.3555
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Hambright",
+    "order": 5,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8318,
+     35.3705
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Huntersville",
+    "order": 6,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8428,
+     35.4107
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Sam Furr",
+    "order": 7,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8481,
+     35.4396
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Cornelius",
+    "order": 8,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8597,
+     35.4835
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Davidson",
+    "order": 9,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8487,
+     35.4993
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "red",
+    "lineName": "LYNX Red Line (proposed)",
+    "color": "#C8102E",
+    "name": "Mount Mourne",
+    "order": 10,
+    "status": "adopted",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.847,
+     35.555
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,912 @@
+{
+ "type": "FeatureCollection",
+ "generated": "seed (approximate)",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "line",
+    "line": "blue",
+    "name": "LYNX Blue Line",
+    "mode": "Light rail",
+    "color": "#1E6FD9",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -80.879,
+      35.092
+     ],
+     [
+      -80.875,
+      35.11
+     ],
+     [
+      -80.873,
+      35.125
+     ],
+     [
+      -80.874,
+      35.144
+     ],
+     [
+      -80.877,
+      35.158
+     ],
+     [
+      -80.8822,
+      35.172
+     ],
+     [
+      -80.8788,
+      35.1837
+     ],
+     [
+      -80.871,
+      35.1963
+     ],
+     [
+      -80.864,
+      35.2036
+     ],
+     [
+      -80.8589,
+      35.2085
+     ],
+     [
+      -80.8539,
+      35.2129
+     ],
+     [
+      -80.8485,
+      35.2172
+     ],
+     [
+      -80.8433,
+      35.2213
+     ],
+     [
+      -80.8402,
+      35.2244
+     ],
+     [
+      -80.8375,
+      35.228
+     ],
+     [
+      -80.8344,
+      35.2302
+     ],
+     [
+      -80.8241,
+      35.2386
+     ],
+     [
+      -80.816,
+      35.2445
+     ],
+     [
+      -80.809,
+      35.2498
+     ],
+     [
+      -80.7977,
+      35.258
+     ],
+     [
+      -80.7869,
+      35.2697
+     ],
+     [
+      -80.7783,
+      35.2779
+     ],
+     [
+      -80.7665,
+      35.2866
+     ],
+     [
+      -80.7565,
+      35.2969
+     ],
+     [
+      -80.7472,
+      35.3068
+     ],
+     [
+      -80.7339,
+      35.3115
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "I-485/South Boulevard",
+    "order": 0,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.879,
+     35.092
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Sharon Road West",
+    "order": 1,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.875,
+     35.11
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Arrowood",
+    "order": 2,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.873,
+     35.125
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Archdale",
+    "order": 3,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.874,
+     35.144
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Tyvola",
+    "order": 4,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.877,
+     35.158
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Woodlawn",
+    "order": 5,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8822,
+     35.172
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Scaleybark",
+    "order": 6,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8788,
+     35.1837
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "New Bern",
+    "order": 7,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.871,
+     35.1963
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "East/West Boulevard",
+    "order": 8,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.864,
+     35.2036
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Bland Street",
+    "order": 9,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8589,
+     35.2085
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Carson",
+    "order": 10,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8539,
+     35.2129
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Stonewall",
+    "order": 11,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8485,
+     35.2172
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "3rd Street/Convention Center",
+    "order": 12,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8433,
+     35.2213
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "CTC/Arena",
+    "order": 13,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8402,
+     35.2244
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "7th Street",
+    "order": 14,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8375,
+     35.228
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "9th Street",
+    "order": 15,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8344,
+     35.2302
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Parkwood",
+    "order": 16,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8241,
+     35.2386
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "25th Street",
+    "order": 17,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.816,
+     35.2445
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "36th Street",
+    "order": 18,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.809,
+     35.2498
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Sugar Creek",
+    "order": 19,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7977,
+     35.258
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Old Concord Road",
+    "order": 20,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7869,
+     35.2697
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "Tom Hunter",
+    "order": 21,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7783,
+     35.2779
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "University City Boulevard",
+    "order": 22,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7665,
+     35.2866
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "McCullough",
+    "order": 23,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7565,
+     35.2969
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "JW Clay Boulevard/UNC Charlotte",
+    "order": 24,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7472,
+     35.3068
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "blue",
+    "lineName": "LYNX Blue Line",
+    "color": "#1E6FD9",
+    "name": "UNC Charlotte–Main",
+    "order": 25,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.7339,
+     35.3115
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "line",
+    "line": "gold",
+    "name": "CityLYNX Gold Line",
+    "mode": "Streetcar",
+    "color": "#E0A526",
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -80.8577,
+      35.2468
+     ],
+     [
+      -80.8547,
+      35.2434
+     ],
+     [
+      -80.853,
+      35.2385
+     ],
+     [
+      -80.8497,
+      35.2315
+     ],
+     [
+      -80.8459,
+      35.229
+     ],
+     [
+      -80.843,
+      35.2272
+     ],
+     [
+      -80.8406,
+      35.2251
+     ],
+     [
+      -80.8355,
+      35.2205
+     ],
+     [
+      -80.8312,
+      35.2168
+     ],
+     [
+      -80.824,
+      35.2142
+     ],
+     [
+      -80.8195,
+      35.2183
+     ],
+     [
+      -80.8165,
+      35.223
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "French Street",
+    "order": 0,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8577,
+     35.2468
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Johnson C. Smith University",
+    "order": 1,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8547,
+     35.2434
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Five Points Plaza",
+    "order": 2,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.853,
+     35.2385
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Johnson & Wales Way",
+    "order": 3,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8497,
+     35.2315
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Mint Street",
+    "order": 4,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8459,
+     35.229
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Tryon Street",
+    "order": 5,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.843,
+     35.2272
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "CTC/Arena",
+    "order": 6,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8406,
+     35.2251
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "McDowell Street",
+    "order": 7,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8355,
+     35.2205
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "CPCC",
+    "order": 8,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8312,
+     35.2168
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Novant Health Presbyterian",
+    "order": 9,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.824,
+     35.2142
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Hawthorne Lane & 5th Street",
+    "order": 10,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8195,
+     35.2183
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "station",
+    "line": "gold",
+    "lineName": "CityLYNX Gold Line",
+    "color": "#E0A526",
+    "name": "Sunnyside Avenue",
+    "order": 11,
+    "source": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.8165,
+     35.223
+    ]
+   }
+  }
+ ]
+}

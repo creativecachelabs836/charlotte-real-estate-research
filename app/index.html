@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Charlotte Research Map</title>
+  <meta name="color-scheme" content="light dark" />
+</head>
+<body>
+  <div id="map" aria-label="Map of Charlotte transit and saved homes"></div>
+
+  <aside class="panel" id="panel">
+    <button class="grabber" id="grabber" aria-label="Expand panel"></button>
+    <header class="panel-head">
+      <div>
+        <p class="eyebrow">Charlotte, NC</p>
+        <h1>Research Map</h1>
+      </div>
+      <button class="icon-btn" id="theme" aria-label="Toggle appearance" title="Appearance">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18V3z"/><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </header>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="group">
+      <h2>Layers</h2>
+      <div class="toggles" id="toggles"></div>
+    </section>
+
+    <section class="group homes">
+      <div class="homes-head">
+        <h2>Saved homes</h2>
+        <select id="sort" aria-label="Sort homes">
+          <option value="transit">Nearest station</option>
+          <option value="priceAsc">Price ↑</option>
+          <option value="priceDesc">Price ↓</option>
+        </select>
+      </div>
+      <ul class="home-list" id="homeList"></ul>
+    </section>
+
+    <footer class="source" id="source"></footer>
+  </aside>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

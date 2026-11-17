@@ -1,0 +1,21 @@
+{
+  "name": "clt-research-map",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "geocode": "node scripts/geocode-homes.mjs",
+    "refresh:transit": "node scripts/refresh-transit.mjs",
+    "seed:transit": "node scripts/seed-transit.mjs"
+  },
+  "dependencies": {
+    "maplibre-gl": "^4.7.1",
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}

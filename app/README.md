@@ -12,6 +12,8 @@ An interactive map of Charlotte's rail transit and your saved homes.
 
 ## Run it
 
+Requires **Node.js 18 or newer** (check with `node -v`; install the LTS from https://nodejs.org).
+
 ```bash
 cd app
 npm install
